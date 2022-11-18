@@ -4,21 +4,30 @@
 
 using namespace std;
 
-int main(){
-    Cert487 bobCert("bob.txt");
-    Cert487 aliceCert("alice.txt");
-    Cert487 carlCert("carl.txt");
-
-    aliceCert.printLess();
-    cout << endl;
-    bobCert.printLess();
-    cout << endl;
-    carlCert.printLess();
+int main(int argc, char** argv){
     CertGroup group;
-    group.addCert(bobCert);
-    group.addCert(aliceCert);
-    group.addCert(carlCert);
-    cout << group.validateChain(1,3) << endl;
+
+    for(int i = 1; i < argc; i++){
+        Cert487 newCert(argv[i]);
+        group.addCert(newCert);
+    }
+
+    int start;
+    int end;
+
+    cout << "Enter serial numbers of start and end of chain:" << endl;
+    cout << "Start: ";
+    cin >> start;
+    cout << "End: ";
+    cin >> end;
+    cout << endl;
+
+    if(group.validateChain(start, end)){
+        cout << "A valid chain can be found" << endl;
+    }
+    else{
+        cout << "No valid chain can be found" << endl;
+    }
 
     return 0;
 }
