@@ -34,7 +34,10 @@ bool CertGroup::findNextLink(int currentIndex, int certTwoSerial){
     for(int i = 0; i < certs.size(); i++){        
         // check if i cert was signed by currentIndex
         // i <- currentIndex
-        if(certs.at(i).getIssuer() == certs.at(currentIndex).getSubjectName()){
+        //cerr << "c: " << currentIndex << " i: " << i << endl;
+        if(certs.at(i).getIssuer() == certs.at(currentIndex).getSubjectName()
+            && certs.at(i).getSerialNumber() != certs.at(currentIndex).getSerialNumber()){
+            // handle self signed certs
             // if currentIndex signed checkIndex
             if(certs.at(i).getSerialNumber() == certTwoSerial){
                 // chain is complete
@@ -47,7 +50,21 @@ bool CertGroup::findNextLink(int currentIndex, int certTwoSerial){
                 }
             }
         }
+
+        //check for self signed certs
+        if(certs.at(i).getSerialNumber() == certs.at(currentIndex).getSerialNumber()
+            && certs.at(i).getSerialNumber() == certTwoSerial){
+            
+            return true;
+        }
     }
 
     return false;
+}
+
+void CertGroup::print(){
+    for(int i = 0; i < certs.size(); i++){
+        certs.at(i).printLess();
+        cout << endl;
+    }
 }

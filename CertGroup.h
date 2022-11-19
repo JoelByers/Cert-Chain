@@ -12,6 +12,7 @@ class CertGroup {
     public:
         void addCert(Cert487 cert);
         bool validateChain(int certOneSerial, int certTwoSerial);
+        void print();
 
 };
 
