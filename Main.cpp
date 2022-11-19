@@ -12,6 +12,8 @@ int main(int argc, char** argv){
         group.addCert(newCert);
     }
 
+    group.print();
+
     int start;
     int end;
 
